@@ -27,59 +27,34 @@ const callback = (obj) => {
     res.render('index.hbs', obj)
 }
 
-const weatherForecast = (address, callback) => {
-    geocode(address, (error, data) => {
-        if (error) {
-            console.log(error)
-            return undefined
-        }
-        forecast(data.latitude, data.longitude, (error, forecastData) => {
-            if (error) {
-                console.log(error)
-                return undefined
-            }
-            // console.log("Made it to here")
-            // console.log(data.location)
-            // console.log(forecastData)
-
-            let obj = {
-                location:   data.location,
-                forecast:   forecastData,
-            }
-            console.log(obj)
-
-            return obj
-            // console.log(data.location)
-            // console.log(forecastData)
-
-            
-        })
-    })
-}
-
 app.get('', (req, res) => {
-    let obj
-
     console.log(req.query.address)
     if (req.query.address) {
-        
-        // obj["weather"] = weatherForecast(req.query.address)
-        obj = {
-            title:      "Weather App",
-            name:       "Peter Morgan",
-            weather:    weatherForecast(req.query.address)   
-        }
+        geocode(req.query.address, (error, data) => {
+            if (error) {
+                res.send(error)
+            }
+            forecast(data.latitude, data.longitude, (error, forecastData) => {
+                if (error) {
+                    res.send(error)
+                }
+
+                res.render('index.hbs', {
+                    title:      "Weather App",
+                    name:       "Peter Morgan",
+                    location:   data.location,
+                    weather:    forecastData,
+                })
+            })
+        })
     } else {
-        obj = {
+        res.render('index.hbs', {
             title:      "Weather App",
             name:       "Peter Morgan",
-            weather:    {
-                location:   "",
-                forecast:   "",
-            },
-        }
+            location:   "",
+            weather:    "",
+        })
     }
-    res.render('index', obj)
 })
 
 app.get('/about', (req, res) => {
