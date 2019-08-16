@@ -1,6 +1,9 @@
 const express = require('express')
 const path = require('path')
 const hbs = require('hbs')
+const geocode = require('./utils/geocode.js')
+const forecast = require('./utils/forecast.js')
+
 
 const app = express()
 
@@ -17,17 +20,85 @@ hbs.registerPartials(partialsPath)
 //  Setup static directory to serve
 app.use(express.static(publicPath))
 
-app.get('', (req, res) => {
-    res.render('index', {
-        title:  "Weather App",   
-        name:   "Peter Morgan",
+
+// const address = process.argv[2]
+
+const callback = (obj) => {
+    res.render('index.hbs', obj)
+}
+
+const weatherForecast = (address, callback) => {
+    geocode(address, (error, data) => {
+        if (error) {
+            console.log(error)
+            return undefined
+        }
+        forecast(data.latitude, data.longitude, (error, forecastData) => {
+            if (error) {
+                console.log(error)
+                return undefined
+            }
+            // console.log("Made it to here")
+            // console.log(data.location)
+            // console.log(forecastData)
+
+            let obj = {
+                location:   data.location,
+                forecast:   forecastData,
+            }
+            console.log(obj)
+
+            return obj
+            // console.log(data.location)
+            // console.log(forecastData)
+
+            
+        })
     })
+}
+
+app.get('', (req, res) => {
+    let obj
+
+    console.log(req.query.address)
+    if (req.query.address) {
+        
+        // obj["weather"] = weatherForecast(req.query.address)
+        obj = {
+            title:      "Weather App",
+            name:       "Peter Morgan",
+            weather:    weatherForecast(req.query.address)   
+        }
+    } else {
+        obj = {
+            title:      "Weather App",
+            name:       "Peter Morgan",
+            weather:    {
+                location:   "",
+                forecast:   "",
+            },
+        }
+    }
+    res.render('index', obj)
 })
 
 app.get('/about', (req, res) => {
     res.render('about.hbs', {
         title:  "About Me",
         name:   "Peter Morgan"
+    })
+})
+
+app.get('/products', (req, res) => {
+    if (!req.query.search) {
+        res.send({
+            error:  'You must provide a search term'
+        })
+        return
+    } 
+    console.log(req.query.search)
+    res.send({
+        products:   [],
     })
 })
 

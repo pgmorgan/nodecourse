@@ -1,5 +1,4 @@
 * {
-    font-family:    'Roboto', Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -9,12 +8,18 @@ body {
 }
 
 a   {
+    font-family:    'Roboto', Arial, Helvetica, serif;
     text-decoration:    none;
 }
 
 h1 {
+    font-family:    'Roboto', Arial, Helvetica, serif;
     color:  red;
     font-size:  6em;
+}
+
+p   {
+    font-family:    'Roboto', Arial, Helvetica, serif;
 }
 
 img {
