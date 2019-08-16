@@ -32,7 +32,10 @@ app.get('/about', (req, res) => {
 })
 
 app.get('*', (req, res) => {
-    res.send('My 404 page')
+    res.render('404.hbs', {
+        title:  "Error 404: Page Not Found",
+        name:   "Peter Morgan"
+    })
 })
 
 app.listen(3000, () => {
