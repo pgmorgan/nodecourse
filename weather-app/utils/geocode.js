@@ -1,9 +1,16 @@
 const request = require('request')
 
 const geocode = (address, callback) => {
-    const url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + encodeURIComponent(address) + ".json?access_token=pk.eyJ1IjoicGV0ZXJnbTEiLCJhIjoiY2p6YTAwcXNoMDB1ZzNtbzZ1OTR6aW1tdiJ9.sGjVElKrCqYJ02eTei_gNg&limit=1"
+    const apiKey = "pk.eyJ1IjoicGV0ZXJnbTEiLCJhIjoiY2p6YTAwcXNoMDB1ZzNtbzZ1OTR6aW1tdiJ9.sGjVElKrCqYJ02eTei_gNg"
+    let url = "https://api.mapbox.com/geocoding/v5/mapbox.places/"
+    url += encodeURIComponent(address) 
+    url += ".json?access_token=" + apiKey + "&limit=1"
+    let optionsObj = {
+        url:    url,
+        json:   true,
+    }
 
-    request({ url: url, json: true }, (error, response) => {
+    const reqFunc = (error, response) => {
         if (error) {
             callback('Unable to connect to location services.', undefined)
         } else if (response.body.features.length === 0) {
@@ -15,7 +22,9 @@ const geocode = (address, callback) => {
                 location:   response.body.features[0].place_name,
             })
         }
-    })
+    }
+
+    request(optionsObj, reqFunc)
 }
 
 module.exports = geocode

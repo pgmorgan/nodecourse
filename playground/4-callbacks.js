@@ -1,6 +1,6 @@
-// setTimeout(() => {
-//     console.log('Two seconds are up')
-// }, 2000)
+setTimeout(() => {
+    console.log('Two seconds are up')
+}, 2000)
 
 // const names = ['Andrew', 'Jen', 'Jess']
 // const shortNames = names.filter((name) => {
@@ -33,7 +33,10 @@ is provided as an argument to another function.
 // 4. Test your work!
 
 const add = (a, b, callback) => {
-    setTimeout(()
+    setTimeout(() => {
+        callback(a + b)
+    }, 2000)
+}
 
 add(1, 4, (sum) => {
     console.log(sum) // Should print: 5
