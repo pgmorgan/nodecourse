@@ -1,5 +1,10 @@
 # Don't track content of these folders
 task-manager/config/dev.env
+notes-app/node_modules/
+task-manager/node_modules/
+weather-app/node_modules/
+web-server-2/node_modules/
+web-server/node_modules/
 
 
 # Compiled source #
