@@ -3,6 +3,7 @@ const multer = require("multer")
 const sharp = require("sharp")
 const User = require("../models/user")
 const auth = require("../middleware/auth")
+const { sendWelcomeEmail, sendCancellationEmail } = require("../emails/account")
 
 const router = new express.Router()
 
@@ -10,8 +11,11 @@ router.post('/users', async (req, res) => {
     const user = new User(req.body)
 
     try {
+        await user.save()
         const token = await user.generateAuthToken()
-        //user.generateAuthToken() calls 'await user.save()' so no need to save() here.
+        /*  sendWelcomeEmail is asynchronous but there's no need to await for it */
+        sendWelcomeEmail(user.email, user.name)
+        /*  user.generateAuthToken() calls 'await user.save()' so no need to save() above in fact. */
         res.status(201).send({ user: user, token: token })
     } catch(e) {
         res.status(400).send(e)
@@ -100,6 +104,7 @@ router.patch("/users/me", auth, async (req, res) => {
 */
 router.delete("/users/me", auth, async (req, res) => {
     try {
+        sendCancellationEmail(req.user.email, req.user.name)
         await req.user.remove()
         res.status(200).send(req.user)
     } catch (e) {
