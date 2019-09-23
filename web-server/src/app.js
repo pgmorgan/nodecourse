@@ -23,10 +23,6 @@ app.use(express.static(publicPath))
 
 // const address = process.argv[2]
 
-const callback = (obj) => {
-    res.render('index.hbs', obj)
-}
-
 app.get('', (req, res) => {
     console.log(req.query.address)
     if (req.query.address) {

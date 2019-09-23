@@ -1,0 +1,39 @@
+/*----------------------*/
+/*-----SEARCH BAR-------*/
+/*----------------------*/
+
+#greySearchDiv {
+    flex-flow:  column nowrap;
+    align-items:    end;
+    padding:        3px;
+}
+
+.searchBar {
+    width:      97%;
+}
+
+#submitQuery {
+    width:      97%;
+    margin:     5px 0 0 0;
+    display:    block;
+}
+
+.deleteBelow {
+    display:            none;
+}
+
+/*----------------------*/
+/*-----BOOK DETAILS-----*/
+/*----------------------*/
+
+.detail {
+    width:      200px;
+}
+
+.title {
+    width:      200px;
+}
+
+span.book {
+    margin:     10px;
+}

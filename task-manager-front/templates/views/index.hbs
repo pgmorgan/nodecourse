@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/mcleod-reset.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="./css/main.css">
+    <script src="./js/clientSideApp.js"></script>
+    <title>Home</title>
+</head>
+<body>
+	<div id="parentHeader">
+		<span class="besideHeader"></span>
+		{{#if loggedIn}}
+			<span id="headerLoggedIn">
+				<a href="/" id="logo">MY BOOKSHELF APP</a>
+				<ul id="menu">
+						<li><a class="menuButton" href="/settings">Settings</a></li>
+						<li><a class="menuButton" href="/logout">Logout</a></li>
+				</ul>
+			</span>
+		{{else}}
+			<span id="header">
+				<a href="/" id="logo">MY BOOKSHELF APP</a>
+				<ul id="menu">
+					<li><a class="menuButton" href="/login">Login</a></li>
+				</ul>
+			</span>
+		{{/if}}	
+		<span class="besideHeader"></span>
+	</div>
+	<div id="pageFold">
+		<span class="besideBody"></span>
+		<span class="centerBody">
+			<div class="spacer deleteBelow"></div>
+			<span class="besideBook"></span>
+			<div id="allBooks">
+				{{#each task}}
+					<span class="book">
+						<span class="bookDetails">
+							<div class="title ps"></div>
+							<div class="detail author ps">{{this.description}}</div>
+							{{#if this.completed}}
+								<div class="detail price ps">Completed</div>
+							{{else}}
+								<div class="detail price ps">Not Completed</div>
+							{{/if}}
+							<div class="detail buy ps"></div>
+							<div class="detail buy ps">Delete</div></a>
+						</span>
+					</span>
+				{{/each}}
+			</div>
+			<span class="besideBook"></span>
+		</span>
+		<span class="besideBody"></span>
+	</div>
+	
+</body>
+</html>
